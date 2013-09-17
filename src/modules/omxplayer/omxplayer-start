@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+FILENAME="$1"
+FIFO="$2"
+omxplayer --refresh -o hdmi "$FILENAME"  < "$FIFO" &
+echo -n . > "$FIFO"

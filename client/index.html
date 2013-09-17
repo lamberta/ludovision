@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ludovico</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" href="./icons/favicon.ico">
+    <link rel="apple-touch-icon" href="./icons/touch.png">
+    <link rel="apple-touch-icon-precomposed" href="./icons/touch.png">
+    <!--<link rel="apple-touch-startup-image" href="./icons/splash.png">-->
+    <meta name="description" content="Ludovico media remote control">
+  </head>
+  <body>
+    <header>
+      <p id="status-message"></p>
+      <ul>
+        <li><a id="stop-button" href="#"><img src="./icons/stop.png" alt="stop"/></a></li>
+        <li>
+          <a id="pause-button" href="#">
+            <img src="./icons/pause.png" alt="pause"/>
+            <img src="./icons/play.png" alt="unpause" style="display:none"/>
+          </a>
+        </li>
+        <li><a id="seek-backward-button" href="#"><img src="./icons/rewind.png" alt="rewind"/></a></li>
+        <li><a id="seek-forward-button" href="#"><img src="./icons/forward.png" alt="fast-forward"/></a></li>
+        <li><a id="volume-up-button" href="#"><img src="./icons/volumeUp.png" alt="volume up"/></a></li>
+        <li><a id="volume-down-button" href="#"><img src="./icons/volumeDown.png" alt="volume down"/></a></li>
+      </ul>
+    </header>
+    <main>
+      <ul id="filelist"></ul>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>

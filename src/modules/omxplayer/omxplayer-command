@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+CMD=$(printf "%b" "$1")
+FIFO="$2"
+echo -n $CMD > "$FIFO"

@@ -1,0 +1,96 @@
+body, p, a, ul, h1, h2 {
+  margin: 0;
+  padding: 0;
+  color: #774F38;
+  font-size: 1em;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+}
+
+body, header {
+  background-color: #E08E79;  
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+header {
+  width: 100%;
+  height: 72px;
+  position: fixed;
+  top: 0px;
+  box-shadow: 0px 1px 50px #5E5E5E;
+}
+
+header p {
+  padding-left: 0.5em;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+header ul {
+  margin: 0 auto;
+  width: 320px;
+  display: table;
+  table-layout: fixed;
+}
+
+header li {
+  display: table-cell;
+  text-align: center;
+}
+
+header p, header a {
+  color: #ECE5CE;
+}
+
+header img {
+  width: 48px; 
+}
+
+#filelist {
+  margin-top: 72px; /*header height+padding-top*/
+}
+
+#filelist h2 {
+  cursor: pointer;
+  padding-left: 2px;
+  height: 2.4em;
+  line-height: 2.4em;
+  background: -webkit-gradient(linear,0% 0%,0% 100%,from(#C0C0C0),to(#C5E0DC));
+  background: -moz-linear-gradient(top,#C0C0C0,#C5E0DC);
+}
+
+#filelist h2 p {
+  display: inline;
+  margin-left: 10px;
+}
+
+#filelist h2 + ul {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s linear;
+  -o-transition: max-height 0.5s linear;
+  -moz-transition: max-height 0.5s linear;
+  -webkit-transition: max-height 0.5s linear;
+}
+
+#filelist a {
+  display: block;
+  height: 2.4em;
+  line-height: 2.4em;
+  padding-left: 0.5em;
+}
+
+#filelist li:nth-child(odd) {
+    background-color: #F1D4AF;
+}
+
+#filelist li:nth-child(even) {
+    background-color: #ECE5CE;
+}
