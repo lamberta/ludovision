@@ -2,11 +2,12 @@ To run *ludovico* when the computer boots up, we'll need to
 create an init script for it. As root, copy the sample file
 below to `/etc/init.d/ludovico`, and make sure the
 script is executable (using `chmod 755 filename` should do the
-trick). Now you can start and stop the service with the commands:
+trick). Now you can start and stop the service with these commands:
 
 ~~~
 $ /etc/init.d/ludovico start
 $ /etc/init.d/ludovico stop
+$ /etc/init.d/ludovico restart
 ~~~
 
 With the init scripts in place, install the scripts into the
@@ -50,29 +51,55 @@ SCRIPTNAME=/etc/init.d/$NAME
 
 . /lib/lsb/init-functions
 
+do_start() {
+  if start-stop-daemon --start --quiet --oknodo --background \
+    --chuid $USER --pidfile $PIDFILE --make-pidfile \
+    --exec $DAEMON -- $DAEMON_ARGS; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+do_stop() {
+  if start-stop-daemon --stop --quiet \
+    --retry=TERM/30/KILL/5 --pidfile $PIDFILE; then
+    rm -f $PIDFILE
+    return 0
+  else
+    rm -f $PIDFILE
+    return 1
+  fi
+}
+
 case "$1" in
   start)
     log_daemon_msg "Starting Ludovico media server" $NAME || true
-    if start-stop-daemon --start --quiet --oknodo --background \
-        --chuid $USER --pidfile $PIDFILE --make-pidfile \
-        --exec $DAEMON -- $DAEMON_ARGS; then
-        log_end_msg 0 || true
+    if do_start; then
+      log_end_msg 0 || true
     else
-        log_end_msg 1 || true
+      log_end_msg 1 || true
     fi
     ;;
   stop)
     log_daemon_msg "Stopping Ludovico media server" $NAME || true
-    if start-stop-daemon --stop --quiet \
-        --retry=TERM/30/KILL/5 --pidfile $PIDFILE; then
-        log_end_msg 0 || true
+    if do_stop; then
+      log_end_msg 0 || true
     else
-        log_end_msg 1 || true
+      log_end_msg 1 || true
     fi
     ;;
-
+  restart)
+    log_daemon_msg "Restarting Ludovico media server" $NAME || true
+    do_stop
+    if do_start; then
+      log_end_msg 0 || true
+    else
+      log_end_msg 1 || true
+    fi
+    ;;
   *)
-    echo "Usage: /etc/init.d/$NAME {start|stop}"
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart}"
     exit 1
     ;;
 esac
