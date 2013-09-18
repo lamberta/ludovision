@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-PROJECT_ROOT=$(cd -P $(dirname "$0") && cd .. && pwd)
+PROJECT_ROOT=$(cd -P $(dirname $(readlink "$0")) && cd .. && pwd)
 
 exec node "$PROJECT_ROOT/src/app.js"

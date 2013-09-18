@@ -21,30 +21,36 @@ exports.rootDirs = [];
  */
 exports.addFile = function (filename) {
   filename = expandPath(filename);
-  var root_dir = (fs.statSync(filename).isDirectory()) ? filename : path.dirname(filename);
-  if (root_dir === filename) {
-    process.stdout.write("  Adding files from directory "+ filename +" ");
+
+  if (!fs.existsSync(filename)) {
+    console.warn("Invalid file '"+ filename +"', skipping.")
   } else {
-    process.stdout.write("  Adding file "+ filename +" ");
-  }
-  findFile(filename, function (err, filepath, stat) {
-    if (err) console.error(err);
-    //ignore hidden files
-    if (path.basename(filepath)[0] !== '.') {
-      var rel_dir = path.relative(root_dir, path.dirname(filepath));
-      exports.files.push({
-        path: filepath,
-        reldir: (rel_dir.length === 0) ? null : rel_dir
-      });
-      process.stdout.write('.');
+    var root_dir = (fs.statSync(filename).isDirectory()) ? filename : path.dirname(filename);
+    if (root_dir === filename) {
+      process.stdout.write("  Adding files from directory "+ filename +" ");
+    } else {
+      process.stdout.write("  Adding file "+ filename +" ");
     }
-  }, function () {
-    //order by path name, alphabetical
-    exports.files.sort(function (a, b) {
-      return (a.path > b.path) ? 1 : ((a.path < b.path) ? -1 : 0);
+
+    findFile(filename, function (err, filepath, stat) {
+      if (err) console.error(err);
+      //ignore hidden files
+      if (path.basename(filepath)[0] !== '.') {
+        var rel_dir = path.relative(root_dir, path.dirname(filepath));
+        exports.files.push({
+          path: filepath,
+          reldir: (rel_dir.length === 0) ? null : rel_dir
+        });
+        process.stdout.write('.');
+      }
+    }, function () {
+      //order by path name, alphabetical
+      exports.files.sort(function (a, b) {
+        return (a.path > b.path) ? 1 : ((a.path < b.path) ? -1 : 0);
+      });
+      console.log(" all loaded!");
     });
-    console.log(" all loaded!");
-  });
+  }
 }
 
 exports.play = function (filename) {
