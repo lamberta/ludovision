@@ -12,11 +12,25 @@ directory, just look for a file name like
 *node-v0.X.x-linux-arm-pi.tar.gz* (the latest release may
 not yet be available).
 
-With *node* installed, download and run the server on the pi:
+With *node* installed, download the package to the pi:
+
+~~~
+$ wget https://github.com/lamberta/ludovico/archive/master.zip
+$ unzip master.zip
+$ cd ludovico-master
+~~~
+
+Or, using *git*:
 
 ~~~
 $ git clone https://github.com/lamberta/ludovico.git
-$ ./ludovico/bin/ludovico
+$ cd ludovico
+~~~
+
+Now run the server:
+
+~~~
+$ ./bin/ludovico
 Firing up Ludovico
   Adding files from directory /home/me/vids ........ all loaded!
 HTTP server running on port 8080
