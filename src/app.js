@@ -2,6 +2,8 @@ var server = require('./server').http,
     player = require('./player'),
     port = 8080;
 
+console.log("Firing up Ludovico");
+
 if (typeof player.setup === 'function') {
   player.setup();
 }

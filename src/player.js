@@ -22,8 +22,11 @@ exports.rootDirs = [];
 exports.addFile = function (filename) {
   filename = expandPath(filename);
   var root_dir = (fs.statSync(filename).isDirectory()) ? filename : path.dirname(filename);
-
-  process.stdout.write("Adding files ");
+  if (root_dir === filename) {
+    process.stdout.write("  Adding files from directory "+ filename +" ");
+  } else {
+    process.stdout.write("  Adding file "+ filename +" ");
+  }
   findFile(filename, function (err, filepath, stat) {
     if (err) console.error(err);
     //ignore hidden files
