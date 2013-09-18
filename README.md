@@ -48,4 +48,11 @@ As an added convenience, save this page to your phone's home
 screen and run it like a native application. On the iPhone,
 click the share button within the browser, then "Add to Home Screen".
 
+The `ludovico` server is a bit noisy for testing purposes.
+If it's running as a background job, you may want to redirect the output:
+
+~~~
+$ ./bin/ludovico &> /dev/null &
+~~~
+
 <img alt="Ludovico screenshot" src="screenshot.png">
