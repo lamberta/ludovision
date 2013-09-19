@@ -19,7 +19,20 @@ window.onload = function () {
    */
   getJSON('files', null, function (data) {
     if (data.status === 'ok') {
-      populateList(data, addFileHandlers);
+      populateList(data, function () {
+        //animate in top links
+        var toplinks = document.querySelectorAll('#filelist > li > a, #filelist > li > h2');
+        for (var n = 0, len = toplinks.length; n < len; n++) {
+          window.setTimeout(function (elem) {
+            elem.style.display = 'block';
+          }, n*100, toplinks[n]);
+        }
+        //remove spinner element
+        var spinner = document.getElementById('spinner');
+        spinner.parentNode.removeChild(spinner);
+        //add click handlers
+        addFileHandlers(data);
+      });
     } else {
       setStatus("Unable to load file list.", data.status)
     }
@@ -219,7 +232,7 @@ function toggleVisibility (elems) {
       elems[i].style.display = (window.getComputedStyle(elems[i]).display === 'none') ? 'inline' : 'none';
     }
   } else {
-    elems.style.display = (window.getComputedStyle(elems).display === 'none') ? 'inline' : 'none';
+    elems.style.display = (window.getComputedStyle(elems).display === 'none') ? 'block' : 'none';
   }
 }
 
