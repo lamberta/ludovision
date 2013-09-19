@@ -183,7 +183,7 @@ function updatePlayerDisplay (isLoading) {
   if (isLoading) {
     setStatus("Loading video list ...");
   } else {
-    setStatus("Hello, Ludovico!");
+    setStatus("Hello, Ludovision!");
   }
   getJSON('status', null, function (data) {
     if (data.status === 'ok') {
@@ -202,7 +202,7 @@ function updatePlayerDisplay (isLoading) {
         }
       } else {
         if (isLoading) {
-          setStatus("Hello, Ludovico!");
+          setStatus("Hello, Ludovision!");
         }
         //reset pause if needed
         if (window.getComputedStyle(pauseImgs[0]).display !== 'none') { //check paused image

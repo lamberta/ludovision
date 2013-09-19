@@ -1,26 +1,26 @@
-To run *ludovico* when the computer boots up, we'll need to
+To run *ludovision* when the computer boots up, we'll need to
 create an init script for it. As root, copy the sample file
-below to `/etc/init.d/ludovico`, and make sure the
+below to `/etc/init.d/ludovision`, and make sure the
 script is executable (using `chmod 755 filename` should do the
 trick). Now you can start and stop the service with these commands:
 
 ~~~
-$ /etc/init.d/ludovico start
-$ /etc/init.d/ludovico stop
-$ /etc/init.d/ludovico restart
+$ /etc/init.d/ludovision start
+$ /etc/init.d/ludovision stop
+$ /etc/init.d/ludovision restart
 ~~~
 
 With the init scripts in place, install the scripts into the
 system boot sequence using the `update-rc.d` command:
 
 ~~~
-$ sudo update-rc.d ludovico defaults
+$ sudo update-rc.d ludovision defaults
 ~~~
 
 Now when you reboot your system you'll see a message informing
-you that the Ludovico media server has been started.
+you that the Ludovision media server has been started.
 
-Here's the example init script for `/etc/init.d/ludovico`.
+Here's the example init script for `/etc/init.d/ludovision`.
 You'll probably need to change the `USER`, `PATH`, and
 `DAEMON` variables to match your system setup. Also, make
 sure the *node* program is in your `PATH`.
@@ -28,20 +28,20 @@ sure the *node* program is in your `PATH`.
 ~~~
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          ludovico
+# Provides:          ludovision
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Ludovico initscript
-# Description:       Ludovico init at boot. Based on skeleton.
+# Short-Description: Ludovision initscript
+# Description:       Ludovision init at boot. Based on skeleton.
 ### END INIT INFO
 
 # Author: Billy Lamberta <b@lamberta.org>
 USER=b
 # Make sure node is in your PATH
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/home/$USER/bin
-NAME=ludovico
+NAME=ludovision
 DAEMON=/home/$USER/src/$NAME/bin/$NAME
 DAEMON_ARGS=""
 PIDFILE=/var/run/$NAME.pid
@@ -74,7 +74,7 @@ do_stop() {
 
 case "$1" in
   start)
-    log_daemon_msg "Starting Ludovico media server" $NAME || true
+    log_daemon_msg "Starting Ludovision media server" $NAME || true
     if do_start; then
       log_end_msg 0 || true
     else
@@ -82,7 +82,7 @@ case "$1" in
     fi
     ;;
   stop)
-    log_daemon_msg "Stopping Ludovico media server" $NAME || true
+    log_daemon_msg "Stopping Ludovision media server" $NAME || true
     if do_stop; then
       log_end_msg 0 || true
     else
@@ -90,7 +90,7 @@ case "$1" in
     fi
     ;;
   restart)
-    log_daemon_msg "Restarting Ludovico media server" $NAME || true
+    log_daemon_msg "Restarting Ludovision media server" $NAME || true
     do_stop
     if do_start; then
       log_end_msg 0 || true

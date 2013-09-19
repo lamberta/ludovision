@@ -1,9 +1,9 @@
-*Ludovico* is a web-based remote control for a media
+*Ludovision* is a web-based remote control for a media
 server. Simply put, use your phone to play videos.
 
 ## Install
 
-Currently, *Ludovico* has been tested on the [Raspberry Pi](http://www.raspberrypi.org/)
+Currently, *Ludovision* has been tested on the [Raspberry Pi](http://www.raspberrypi.org/)
 and uses *omxplayer* to display videos. The server
 application runs on [Node.js](http://nodejs.org), so you'll
 need to install the ARM-compiled binary for the device. This
@@ -15,23 +15,23 @@ not yet be available).
 With *node* installed, download the package to the pi:
 
 ~~~
-$ wget https://github.com/lamberta/ludovico/archive/master.zip
+$ wget https://github.com/lamberta/ludovision/archive/master.zip
 $ unzip master.zip
-$ cd ludovico-master
+$ cd ludovision-master
 ~~~
 
 Or, using *git*:
 
 ~~~
-$ git clone https://github.com/lamberta/ludovico.git
-$ cd ludovico
+$ git clone https://github.com/lamberta/ludovision.git
+$ cd ludovision
 ~~~
 
 Now run the server:
 
 ~~~
-$ ./bin/ludovico
-Firing up Ludovico
+$ ./bin/ludovision
+Firing up Ludovision
   Adding files from directory /home/me/vids ........ all loaded!
 HTTP server running on port 8080
 ~~~
@@ -48,11 +48,11 @@ As an added convenience, save this page to your phone's home
 screen and run it like a native application. On the iPhone,
 click the share button within the browser, then "Add to Home Screen".
 
-The `ludovico` server is a bit noisy for testing purposes.
+The `ludovision` server is a bit noisy for testing purposes.
 If it's running as a background job, you may want to redirect the output:
 
 ~~~
-$ ./bin/ludovico &> /dev/null &
+$ ./bin/ludovision &> /dev/null &
 ~~~
 
-<img alt="Ludovico screenshot" src="screenshot.png">
+<img alt="Ludovision screenshot" src="screenshot.png">
