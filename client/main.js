@@ -12,6 +12,9 @@ window.onload = function () {
   
   updatePlayerDisplay(true);
 
+  //removes the 250ms click delay built-in to mobile browsers
+  FastClick.attach(document.body);
+
   /* called after file list loaded
    */
   getJSON('files', null, function (data) {
