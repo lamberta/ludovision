@@ -19,7 +19,6 @@ window.onload = function () {
    */
   getJSON('files', null, function (data) {
     if (data.status === 'ok') {
-      //setStatus("Hello, Pi!");
       populateList(data, addFileHandlers);
     } else {
       setStatus("Unable to load file list.", data.status)
@@ -36,7 +35,7 @@ window.onload = function () {
 function addPlayerHandlers () {
   var buttons = {
     'stop-button': {params: {stop: true}, status: true},
-    'pause-button': {params: {pause: true}, status: true, callback: function () { toggleVisibility(pauseImgs); }},
+    'pause-button': {params: {pause: true}, status: true},
     'volume-up-button': {params: {volumeUp: true}},
     'volume-down-button': {params: {volumeDown: true}},
     'seek-forward-button': {params: {seekForward: true}},
@@ -53,7 +52,7 @@ function addPlayerHandlers () {
           if (data.status === 'ok') {
             if (but.status) {
               if (but.callback) {
-                but.callback();
+                but.callback(data.success);
               }
               updatePlayerDisplay();
             } else {
@@ -94,7 +93,6 @@ function addFileHandlers (data) {
       getJSON('control', {play: path}, function (data) {
         if (data.status === 'ok') {
           updatePlayerDisplay();
-          //setStatus("Now playing " + basename, data);
         }
       }, function (err, status) {
         setStatus("Unable to play " + path, err, status)
@@ -179,13 +177,24 @@ function updatePlayerDisplay (isLoading) {
       if (data.isPlaying) {
         var basename = data.currentFile.split(data.pathSeparator).slice(-1)[0];
         if (data.isPaused) {
-          toggleVisibility(pauseImgs);
+          if (window.getComputedStyle(pauseImgs[0]).display !== 'none') { //check paused image
+            toggleVisibility(pauseImgs);
+          }
           setStatus("Paused " + basename);
         } else {
+          if (window.getComputedStyle(pauseImgs[1]).display !== 'none') { //check play image
+            toggleVisibility(pauseImgs);
+          }
           setStatus("Playing " + basename);
         }
-      } else if (isLoading) {
-        setStatus("Hello, Ludovico!");
+      } else {
+        if (isLoading) {
+          setStatus("Hello, Ludovico!");
+        }
+        //reset pause if needed
+        if (window.getComputedStyle(pauseImgs[0]).display !== 'none') { //check paused image
+          toggleVisibility(pauseImgs);
+        }
       }
     } else {
       setStatus("Bad server status.");
