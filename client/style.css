@@ -93,12 +93,7 @@ header img {
 }
 
 #filelist h2 + ul {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.5s linear;
-  -o-transition: max-height 0.5s linear;
-  -moz-transition: max-height 0.5s linear;
-  -webkit-transition: max-height 0.5s linear;
+  display: none;
 }
 
 #filelist a {

@@ -78,15 +78,7 @@ function addFileHandlers (data) {
   for (var i = 0, h = document.querySelectorAll('#filelist h2'), len = h.length; i < len; i++) {
     h[i].addEventListener('click', function (evt) {
       evt.preventDefault();
-      var ul = this.nextSibling;
-      if (ul.style.maxHeight === '' || ul.style.maxHeight === '0px') {
-        //should take this out of callback
-        var itemHeight = parseInt(window.getComputedStyle(ul.children[0]).getPropertyValue('height')) + 1,
-            n = ul.querySelectorAll('ul, li').length + 1;
-        ul.style.maxHeight = (itemHeight * n) + 'px'; //need to compute all children
-      } else {
-        ul.style.maxHeight = "0px";
-      }
+      toggleVisibility(this.nextSibling); //ul
       toggleVisibility(this.getElementsByTagName('span'));
     }, false);
   }
@@ -213,8 +205,12 @@ function setStatus (msg) {
 }
 
 function toggleVisibility (elems) {
-  for (var i = 0, len = elems.length; i < len; i++) {
-    elems[i].style.display = (elems[i].style.display === '') ? 'none' : '';
+  if (elems.hasOwnProperty('length')) {
+    for (var i = 0, len = elems.length; i < len; i++) {
+      elems[i].style.display = (window.getComputedStyle(elems[i]).display === 'none') ? 'inline' : 'none';
+    }
+  } else {
+    elems.style.display = (window.getComputedStyle(elems).display === 'none') ? 'inline' : 'none';
   }
 }
 
