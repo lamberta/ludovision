@@ -1,5 +1,8 @@
 var statusElem, pauseImgs;
 
+//enable active state for links
+document.addEventListener('touchstart', function(){}, true);
+
 /* main
  */
 window.onload = function () {
@@ -95,7 +98,7 @@ function addFileHandlers (data) {
 
       getJSON('control', {play: path}, function (data) {
         if (data.status === 'ok') {
-					updatePlayerDisplay();
+          updatePlayerDisplay();
           //setStatus("Now playing " + basename, data);
         }
       }, function (err, status) {

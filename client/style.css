@@ -8,7 +8,11 @@ body, p, a, ul, h1, h2 {
 }
 
 body, header {
-  background-color: #E08E79;  
+  background-color: #E08E79;
+  /* remove gray touch overlay */
+  tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -moz-tap-highlight-color: rgba(0,0,0,0);
 }
 
 ul {
@@ -49,12 +53,24 @@ header p, header a {
   color: #ECE5CE;
 }
 
+header a:active {
+  filter: brightness(50%);
+  -webkit-filter: brightness(50%);
+  -moz-filter: brightness(50%);
+  -o-filter: brightness(50%);
+  -ms-filter: brightness(50%);
+}
+
 header img {
   width: 48px; 
 }
 
 #filelist {
   margin-top: 72px; /*header height+padding-top*/
+}
+
+#filelist h2, #filelist li {
+  white-space: nowrap;
 }
 
 #filelist h2 {
@@ -64,6 +80,11 @@ header img {
   line-height: 2.4em;
   background: -webkit-gradient(linear,0% 0%,0% 100%,from(#C0C0C0),to(#C5E0DC));
   background: -moz-linear-gradient(top,#C0C0C0,#C5E0DC);
+}
+
+#filelist h2:active {
+  background: -webkit-gradient(linear,0% 0%,0% 100%,from(#D1D1D1),to(#C5E0DC));
+  background: -moz-linear-gradient(top,#D1D1D1,#C5E0DC);
 }
 
 #filelist h2 p {
@@ -87,10 +108,18 @@ header img {
   padding-left: 0.5em;
 }
 
-#filelist li:nth-child(odd) {
+#filelist li:nth-child(odd) > a {
     background-color: #F1D4AF;
 }
 
-#filelist li:nth-child(even) {
+#filelist li:nth-child(even) > a {
     background-color: #ECE5CE;
+}
+
+#filelist li a:active {
+  filter: brightness(110%);
+  -webkit-filter: brightness(110%);
+  -moz-filter: brightness(110%);
+  -o-filter: brightness(110%);
+  -ms-filter: brightness(110%);
 }
