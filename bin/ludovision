@@ -1,8 +1,66 @@
 #!/usr/bin/env bash
-
+##
+## This is a convenience script that finds (or installs) node.js, and
+## gets the path lined up to execute the server application.
+## The server app logic begins in the src/app.js file.
+##
 BINPATH=$(readlink "$0")
 if [ -z "$BINPATH" ]; then BINPATH="$0"; fi
-
 PROJECT_ROOT=$(cd -P $(dirname "$BINPATH") && cd .. && pwd)
 
-exec node "$PROJECT_ROOT/src/app.js"
+install_node () {
+    #detect system architecture
+    ARCH_OS=$(uname -s | tr [:upper:] [:lower:])
+    ARCH_MACH=$(uname -m)
+    if echo "$ARCH_MACH" | grep "arm" > /dev/null; then
+        ARCH_MACH="arm-pi"
+    elif echo "$ARCH_MACH" | grep "64" > /dev/null; then
+        ARCH_MACH="x64"
+    elif echo "$ARCH_MACH" | grep "86" > /dev/null; then
+        ARCH_MACH="x86"
+    fi
+    NODE_VERSION="v0.10.17"
+    NODE_PKG="node-$NODE_VERSION-$ARCH_OS-$ARCH_MACH"
+
+    if [ ! -d "$PROJECT_ROOT/lib" ]; then mkdir "$PROJECT_ROOT/lib"; fi
+    cd "$PROJECT_ROOT/lib"
+
+    echo "Downloading $NODE_PKG.tar.gz"
+    if curl --fail --progress-bar --remote-name "http://nodejs.org/dist/$NODE_VERSION/$NODE_PKG.tar.gz"; then
+        echo "Unpacking to $PROJECT_ROOT/lib/node"
+        tar xfz "$NODE_PKG.tar.gz"
+        mv "$NODE_PKG" node
+        rm "$NODE_PKG.tar.gz"
+    else
+        if [ -d "$PROJECT_ROOT/lib" ]; then rm -rf "$PROJECT_ROOT/lib"; fi
+        echo "Unable to find the Node.js binary for your system, aborting" 1>&2
+        echo "Look around http://nodejs.org/dist/ and see if you can find it." 1>&2
+        exit 1
+    fi
+}
+
+## Find nodejs: 1. check local, 2. check user path, 3. download local
+##
+NODE_BIN="$PROJECT_ROOT/lib/node/bin/node"
+if [ ! -x "$NODE_BIN" ]; then
+    NODE_BIN=$(which node)
+    if [ ! -x "$NODE_BIN" ]; then
+        echo "Ludovision requires the Node.js runtime."
+        read -p "Download and install a local version? [yn] " answer
+        if [[ "$answer" = "y" ]] ; then
+            install_node
+            NODE_BIN="$PROJECT_ROOT/lib/node/bin/node"
+        else
+            echo "Welp, you can always come back later, but for now, aborting." 1>&2
+            exit 1
+        fi
+        if [ ! -x "$NODE_BIN" ]; then
+            echo "Unable to locate the Node.js runtime, you'll need to install it yourself. Aborting." 1>&2
+            exit 1
+        fi
+    fi
+fi
+
+## All ready, and off we go ...
+##
+exec $NODE_BIN "$PROJECT_ROOT/src/app.js" $@
