@@ -39,20 +39,30 @@ install_node () {
     fi
 }
 
+# if running as background process, don't prompt for node, just exit
+if echo "$@" | grep -e "--background" > /dev/null; then
+    BACKGROUND_FLAG=1
+fi
+
 ## Find nodejs: 1. check local, 2. check user path, 3. download local
 ##
 NODE_BIN="$PROJECT_ROOT/lib/node/bin/node"
 if [ ! -x "$NODE_BIN" ]; then
     NODE_BIN=$(which node)
     if [ ! -x "$NODE_BIN" ]; then
-        echo "Ludovision requires the Node.js runtime."
-        read -p "Download and install a local version? [yn] " answer
-        if [[ "$answer" = "y" ]] ; then
-            install_node
-            NODE_BIN="$PROJECT_ROOT/lib/node/bin/node"
-        else
-            echo "Welp, you can always come back later, but for now, aborting." 1>&2
+        if [ -n "$BACKGROUND_FLAG" ]; then
+            echo "Can't locate node, aborting." 1>&2
             exit 1
+        else
+            echo "Ludovision requires the Node.js runtime."
+            read -p "Download and install a local version? [yn] " answer
+            if [[ "$answer" = "y" ]] ; then
+                install_node
+                NODE_BIN="$PROJECT_ROOT/lib/node/bin/node"
+            else
+                echo "Welp, you can always come back later, but for now, aborting." 1>&2
+                exit 1
+            fi
         fi
         if [ ! -x "$NODE_BIN" ]; then
             echo "Unable to locate the Node.js runtime, you'll need to install it yourself. Aborting." 1>&2

@@ -5,10 +5,11 @@ var server = require('./server').http,
 
 function printHelp (exitp) {
   process.stdout.write("Usage: ludovision [options] --add path1 -add path2 ...\n");
-  process.stdout.write("  -a, --add=path  Add a directory or media file to serve\n");
+  process.stdout.write("  -a, --add=path    Add a directory or media file to serve\n");
   process.stdout.write("Options:\n");
-  process.stdout.write("  -p, --port=num  Port to run the HTTP server on ["+ port +"]\n");
-  process.stdout.write("  -h, --help      Print help\n");
+  process.stdout.write("  -p, --port=num    Port to run the HTTP server on ["+ port +"]\n");
+  process.stdout.write("      --background  Background processes won't prompt for user input\n");
+  process.stdout.write("  -h, --help        Print help\n");
   if (exitp) {
     process.exit(0);
   }
@@ -35,6 +36,8 @@ for (var i = 2, argv = process.argv, len = argv.length; i < len; i++) {
     filesToLoad.push(argv[i+1]);
     i += 1;
     break;
+  case '--background':
+    break; //used in shell-script wrapper, ignore
   default:
     process.stderr.write("Invalid option: "+ argv[i] +"\n");
     printHelp();
@@ -45,9 +48,11 @@ for (var i = 2, argv = process.argv, len = argv.length; i < len; i++) {
 /* Set up cleanup
  */
 process.on('exit', function () {
+  process.stdout.write("\nShutting down the server, ");
   if (typeof player.cleanup === 'function') {
     player.cleanup();
   }
+  process.stdout.write("buh-bye!\n");
 });
 
 process.on('SIGINT', function () {

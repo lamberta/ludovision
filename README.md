@@ -1,18 +1,18 @@
 *Ludovision* is a web-based remote control for a media
-server. Simply put, use your phone to play videos.
+server. Simply put, use your phone and the Raspberry Pi to
+play videos.
+
+<img alt="Ludovision screenshot" src="screenshot.png">
 
 ## Install
 
-Currently, *Ludovision* has been tested on the [Raspberry Pi](http://www.raspberrypi.org/)
-and uses *omxplayer* to display videos. The server
-application runs on [Node.js](http://nodejs.org), so you'll
-need to install the ARM-compiled binary for the device. This
-is available in the [nodejs.org/dist/](http://nodejs.org/dist/)
-directory, just look for a file name like
-*node-v0.X.x-linux-arm-pi.tar.gz* (the latest release may
-not yet be available).
+Currently, *Ludovision* has been tested with the
+[Raspberry Pi](http://www.raspberrypi.org/) on the
+*Raspbian* image. It runs on [Node.js](http://nodejs.org)
+and uses *omxplayer* to display videos.
 
-With *node* installed, download the package to the pi:
+The first step is to log in to your Raspberry Pi and
+download the *Ludovision* source code:
 
 ~~~
 $ wget https://github.com/lamberta/ludovision/archive/master.zip
@@ -27,22 +27,31 @@ $ git clone https://github.com/lamberta/ludovision.git
 $ cd ludovision
 ~~~
 
-Now run the server:
+Now that you have it, take a look at the command-line options:
 
 ~~~
-$ ./bin/ludovision
-Firing up Ludovision
-  Adding files from directory /home/me/vids ........ all loaded!
-HTTP server running on port 8080
+$ ./bin/ludovision -h
 ~~~
 
-You can change the port and which files and directories to
-load in the `./src/app.js` file. I'll add command-line
-options when I get a chance.
+This will check your system for the Node.js runtime and, if
+it's not available, automatically prompt you to download and
+install it. If node isn't available for your system, or you
+want to install it globally, take a look around
+[nodejs.org/dist/](http://nodejs.org/dist/) and try to find
+a suitable binary. (The Raspberry Pi requires the ARM version.)
 
-Now, point your web-browser to `http://192.168.2.x:8080` (or
-wherever the pi is on your local network) and you should see
-the controls pop up. Find a movie title and click it to play :)
+And with everything in place, start the server and add a
+directory of media files:
+
+~~~
+$ ./bin/ludovision --add ~/vids
+Adding files from directory /home/me/vids ...... all loaded!
+Firing up the Ludovision HTTP server on port 8000
+~~~
+
+Now simply point your web browser to `http://192.168.2.x:8000`
+(or wherever the pi is on your local network), find a
+movie title, and click to play :)
 
 As an added convenience, save this page to your phone's home
 screen and run it like a native application. On the iPhone,
@@ -54,5 +63,3 @@ If it's running as a background job, you may want to redirect the output:
 ~~~
 $ ./bin/ludovision &> /dev/null &
 ~~~
-
-<img alt="Ludovision screenshot" src="screenshot.png">

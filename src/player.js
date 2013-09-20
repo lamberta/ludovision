@@ -27,9 +27,9 @@ exports.addFile = function (filename) {
   } else {
     var root_dir = (fs.statSync(filename).isDirectory()) ? filename : path.dirname(filename);
     if (root_dir === filename) {
-      process.stdout.write("  Adding files from directory "+ filename +" ");
+      process.stdout.write("Adding files from directory "+ filename +" ");
     } else {
-      process.stdout.write("  Adding file "+ filename +" ");
+      process.stdout.write("Adding file "+ filename +" ");
     }
 
     findFile(filename, function (err, filepath, stat) {
