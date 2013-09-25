@@ -129,10 +129,11 @@ function populateList (data, callback) {
     //create list hierarchy for nested files
     if (file.reldir) {
       var part, part_name, ul1, ul2, li2, h, span1, span2, p;
+
       for (var j = 0, reldir_parts = file.reldir.split(sep), partlen = reldir_parts.length; j < partlen; j++) {
         part = reldir_parts[j];
         part_name = reldir_parts.slice(j, j+1).join(sep);
-        ul = docfrag.querySelectorAll("ul[data-path='"+ part_name +"']")[0];
+        ul = node.querySelectorAll("ul[data-path='"+ part_name +"']")[0];
         //if it doesn't exist, add it
         if (!ul) {
           //new list item
